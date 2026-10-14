@@ -1,6 +1,8 @@
-package com.embarkx.FirstSpring;
+package com.embarkx.FirstSpring.controllers;
 
 
+import com.embarkx.FirstSpring.models.User;
+import com.embarkx.FirstSpring.services.UserServices;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,5 +1,7 @@
-package com.embarkx.FirstSpring;
+package com.embarkx.FirstSpring.services;
 
+import com.embarkx.FirstSpring.models.User;
+import com.embarkx.FirstSpring.repository.UserRepositries;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

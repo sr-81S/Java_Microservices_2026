@@ -1,5 +1,6 @@
-package com.embarkx.FirstSpring;
+package com.embarkx.FirstSpring.repository;
 
+import com.embarkx.FirstSpring.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
