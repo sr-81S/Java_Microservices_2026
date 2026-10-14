@@ -1,42 +1,41 @@
 package com.embarkx.FirstSpring;
 
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 
 @Service
+@RequiredArgsConstructor
 public class UserServices {
-    private List<User> users = new ArrayList<User>();
-    private Long initialId = 1L;
+
+    private final UserRepositries userRepositries;
 
     public List<User> getAllUsers() {
-        return users;
+        return userRepositries.findAll();
     }
 
     public User addUser(User user) {
-        user.setId(initialId++);
-        users.add(user);
+
+        userRepositries.save(user);
         return user;
     }
 
     public User getUserById(Long id) {
-        return users.stream()
-                .filter(user-> Objects.equals(user.getId(), id))
-                .findFirst()
-                .orElse(null);
+        return userRepositries.findById(id).orElse(null);
     }
 
+    @Transactional
     public User updateUserById(Long id, User user) {
-        users.stream()
-                .filter(u -> Objects.equals(u.getId(), id))
-                .findFirst()
-                .ifPresent(existingUser -> {
-                    existingUser.setFirstName(user.getFirstName());
-                    existingUser.setLastName(user.getLastName());
-                });
-        return getUserById(id);
+        var existingUser = userRepositries.findById(id).orElse(null);
+        if (existingUser == null) {
+            return null;
+        }
+        existingUser.setFirstName(user.getFirstName());
+        existingUser.setLastName(user.getLastName());
+        userRepositries.save(existingUser);
+        return existingUser;
     }
 
 
