@@ -1,6 +1,8 @@
 package com.embarkx.FirstSpring.controllers;
 
 
+import com.embarkx.FirstSpring.dtos.UserRequest;
+import com.embarkx.FirstSpring.dtos.UserResponce;
 import com.embarkx.FirstSpring.models.User;
 import com.embarkx.FirstSpring.services.UserServices;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +23,13 @@ public class UserController {
 
 
     @GetMapping()
-    public List<User> getAllUsers() {
+    public List<UserResponce> getAllUsers() {
         // Logic to retrieve all users from the database
         return userServices.getAllUsers();
     }
 
     @PostMapping()
-    public User createUser(@RequestBody User user) {
+    public UserResponce createUser(@RequestBody UserRequest user) {
         // Logic to create a new user in the database
        var res =  userServices.addUser(user);
        return res;
