@@ -43,7 +43,7 @@ public class UserServices {
     }
 
     @Transactional
-    public User updateUserById(Long id, User user) {
+    public UserResponce updateUserById(Long id, User user) {
         var existingUser = userRepositries.findById(id).orElse(null);
         if (existingUser == null) {
             return null;
@@ -51,7 +51,7 @@ public class UserServices {
         existingUser.setFirstName(user.getFirstName());
         existingUser.setLastName(user.getLastName());
         userRepositries.save(existingUser);
-        return existingUser;
+        return mapToUserResponse(existingUser);
     }
 
 
