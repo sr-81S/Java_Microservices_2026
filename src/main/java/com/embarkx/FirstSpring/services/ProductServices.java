@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -81,5 +82,11 @@ public class ProductServices {
             productRepositries.save(product);
             return true;
         }).orElse(false);
+    }
+
+    public List<ProductResponce> searchProducts(String keyword) {
+        return productRepositries.searchByKeyword(keyword).stream()
+                .map(this::convertToResponce)
+                .collect(Collectors.toList());
     }
 }

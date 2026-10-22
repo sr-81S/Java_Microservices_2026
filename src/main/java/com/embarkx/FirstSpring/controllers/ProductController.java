@@ -56,4 +56,13 @@ public class ProductController {
         var product = productService.deleteProduct(id);
         return product ?  ResponseEntity.status(204).body(null) : ResponseEntity.status(404).build();
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductResponce>> searchProducts(@RequestParam String keyword) {
+        var products = productService.searchProducts(keyword);
+        if (!products.isEmpty()) {
+            return ResponseEntity.ok(products);
+        }
+        return ResponseEntity.notFound().build();
+    }
 }
