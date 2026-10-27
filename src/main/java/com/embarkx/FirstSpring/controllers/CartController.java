@@ -24,4 +24,15 @@ public class CartController {
         }
         return ResponseEntity.status(201).body("Item added to cart");
     }
+
+    @DeleteMapping("/items/{productId}")
+    public ResponseEntity<?> removeFromCart(
+            @RequestHeader("X-User-ID") String userId, @PathVariable Long productId
+    ){
+        var res = cartService.deleteItemFromCart(userId, productId);
+        if(!res) {
+            return ResponseEntity.status(400).body("Invalid request");
+        }
+        return ResponseEntity.status(200).body("Item deleted from cart");
+    }
 }

@@ -25,8 +25,8 @@ public class CartService {
         }
 
         var product = productRepositries.findById(request.getProductId()).orElse(null);
-        if (product == null || product.getQuantity() < request.getQuantity()) {
-            return false;
+            if (product == null || product.getQuantity() < request.getQuantity()) {
+                return false;
         }
 
         var existingCartItem = cartItemRepositritries.findByUserAndProduct(user, product);
@@ -54,6 +54,24 @@ public class CartService {
                 )
         );
         cartItemRepositritries.save(cartItem);
+        return true;
+    }
+//Delete Items from cart
+    public boolean deleteItemFromCart(String userId, Long productId) {
+        var user = userRepositries.findById(Long.valueOf(userId)).orElse(null);
+        if (user == null) {
+            return false;
+        }
+        var product = productRepositries.findById(productId).orElse(null);
+        if (product == null) {
+            return false;
+        }
+
+        var existingCartItem = cartItemRepositritries.findByUserAndProduct(user, product);
+        if (existingCartItem == null) {
+            return false;
+        }
+        cartItemRepositritries.delete(existingCartItem);
         return true;
     }
 }
