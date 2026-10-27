@@ -35,4 +35,13 @@ public class CartController {
         }
         return ResponseEntity.status(200).body("Item deleted from cart");
     }
+
+    @GetMapping
+    public ResponseEntity<?> getCartForUser(@RequestHeader("X-User-ID") String userId){
+        var res = cartService.getCartForUser(userId);
+        if(res == null){
+            return ResponseEntity.status(400).body("Invalid request");
+        }
+        return ResponseEntity.status(200).body(res);
+    }
 }
