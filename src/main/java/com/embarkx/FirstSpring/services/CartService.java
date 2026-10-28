@@ -77,10 +77,9 @@ public class CartService {
     }
 
     public List<CartItem> getCartForUser(String userId) {
-        System.out.println("before userId: " + userId);
         var user = userRepositries.findById(Long.valueOf(userId)).orElse(null);
         if (user != null) {
-            var cartItems = cartItemRepositritries.findAllByUser(user.getId());
+            var cartItems = cartItemRepositritries.findAllByUser(user);
             return  cartItems;
         }
         return null;

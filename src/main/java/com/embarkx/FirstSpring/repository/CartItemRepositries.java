@@ -14,7 +14,7 @@ import java.util.List;
 public interface CartItemRepositries extends CrudRepository<CartItem, Long> {
     CartItem findByUserAndProduct(User user, Product product);
 
-    @Query("SELECT c FROM CartItem c WHERE c.user.id = :user")
-    List<CartItem> findAllByUser(@Param("user") long user);
+
+    List<CartItem> findAllByUser(User user);
 
 }
