@@ -7,6 +7,7 @@ import com.embarkx.FirstSpring.repository.ProductRepositries;
 import com.embarkx.FirstSpring.repository.UserRepositries;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -82,5 +83,13 @@ public class CartService {
             return cartItemRepositritries.findAllByUser(user);
         }
         return null;
+    }
+
+    @Transactional
+    public void clearCartForUser(String userId) {
+        var user = userRepositries.findById(Long.valueOf(userId)).orElse(null);
+        if (user != null) {
+            cartItemRepositritries.deleteByUser(user);
+        }
     }
 }
