@@ -13,3 +13,25 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: beans, health, info, metrics, shutdown,loggers, env
+  endpoint:
+    health:
+      show-details: always
+    shutdown:
+      enabled: true
+  info:
+    env:
+      enabled: true
+
+
+info:
+  app:
+    name: Ecommerce Store API
+    description: A simple e-commerce store API built with Spring Boot
+    version: 1.0.0
+
