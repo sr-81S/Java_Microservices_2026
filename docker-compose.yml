@@ -1,0 +1,52 @@
+services:
+  postgres:
+    image: postgres:14
+    container_name: postgres_container
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ecommercedb
+      POSTGRES_USER: saroz
+      POSTGRES_PASSWORD: saroz123
+      PGDATA: /data/postgres
+      TZ: Asia/Kolkata
+      PGTZ: Asia/Kolkata
+    command: postgres -c timezone=Asia/Kolkata
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U saroz -d ecommercedb"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin_container
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: "FALSE"
+      TZ: Asia/Kolkata
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - postgres
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres:
+  pgadmin:
+
+networks:
+  postgres:
+    name: postgres
+    driver: bridge

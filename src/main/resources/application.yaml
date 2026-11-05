@@ -1,37 +1,46 @@
 spring:
   application:
     name: Ecommerce Store API
-  h2:
-    console:
-      enabled: true
+
   datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: root
-    password: saroz123
+    # Appending options ensures the JDBC driver connection handshake doesn't send "Asia/Calcutta"
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/ecommercedb?options=-c%20timezone=Asia/Kolkata}
+    username: ${SPRING_DATASOURCE_USERNAME:saroz}
+    password: ${SPRING_DATASOURCE_PASSWORD:saroz123}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      connection-timeout: 20000
+      maximum-pool-size: 10
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+    database: postgresql
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: Asia/Kolkata
 
 management:
   endpoints:
     web:
       exposure:
-        include: beans, health, info, metrics, shutdown,loggers, env
+        # Expose only standard observability endpoints unless behind Spring Security
+        include: ["health", "info", "metrics", "loggers"]
   endpoint:
     health:
       show-details: always
+      show-components: always
     shutdown:
-      enabled: true
+      enabled: false  # Disable remote shutdown unless explicitly secured
   info:
     env:
       enabled: true
-
 
 info:
   app:
     name: Ecommerce Store API
     description: A simple e-commerce store API built with Spring Boot
     version: 1.0.0
-
